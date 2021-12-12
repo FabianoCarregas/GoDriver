@@ -14,46 +14,46 @@ import java.util.Optional;
 
 @Service
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/drivers", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DriverAPI {
 
     @Autowired
     DriverRepository driverRepository;
 
-    @GetMapping("/drivers")
+    @GetMapping
     public List<Driver> listDrivers() {
         return driverRepository.findAll();
     }
 
-    @GetMapping("/drivers/{id}")
-    public Driver driverById(@PathVariable("id") Long id){
+    @GetMapping("/{id}")
+    public Driver getDriverById(@PathVariable("id") Long id){
         return driverRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/drivers")
+    @PostMapping
     public Driver createDriver(@RequestBody Driver driver) {
         return driverRepository.save(driver);
     }
 
-    @PutMapping("drivers/{id}")
+    @PutMapping("/{id}")
     public Driver fullUpdateDriver(@PathVariable("id") Long id, @RequestBody Driver driver) {
-        Driver foundDriver = driverById(id);
+        Driver foundDriver = getDriverById(id);
         foundDriver.setName(driver.getName());
         foundDriver.setBirthDate(driver.getBirthDate());
         return driverRepository.save(foundDriver);
     }
 
-    @PatchMapping("drivers/{id}")
+    @PatchMapping("/{id}")
     public Driver incrementalUpdateDriver(@PathVariable("id") Long id, @RequestBody Driver driver) {
-        Driver foundDriver = driverById(id);
+        Driver foundDriver = getDriverById(id);
         foundDriver.setBirthDate(Optional.ofNullable(driver.getBirthDate()).orElse(foundDriver.getBirthDate()));
         foundDriver.setName(Optional.ofNullable(driver.getName()).orElse(foundDriver.getName()));
         return driverRepository.save(foundDriver);
     }
 
-    @DeleteMapping("drivers/{id}")
+    @DeleteMapping("/{id}")
     public void deleteDriver(@PathVariable("id") Long id) {
-        
-
+       driverRepository.delete(getDriverById(id));
     }
+
 }
