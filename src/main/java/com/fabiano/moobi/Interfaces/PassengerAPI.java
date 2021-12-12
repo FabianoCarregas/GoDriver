@@ -19,7 +19,7 @@ import java.util.Optional;
 public class PassengerAPI {
 
     @Autowired
-    PassengerRepository passengerRepository;
+    private PassengerRepository passengerRepository;
 
     @GetMapping
     public List<Passenger> listPassengers() {

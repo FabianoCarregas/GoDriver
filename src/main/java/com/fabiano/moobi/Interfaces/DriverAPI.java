@@ -18,7 +18,7 @@ import java.util.Optional;
 public class DriverAPI {
 
     @Autowired
-    DriverRepository driverRepository;
+    private DriverRepository driverRepository;
 
     @GetMapping
     public List<Driver> listDrivers() {
