@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RestController
@@ -40,5 +41,19 @@ public class DriverAPI {
         foundDriver.setName(driver.getName());
         foundDriver.setBirthDate(driver.getBirthDate());
         return driverRepository.save(foundDriver);
+    }
+
+    @PatchMapping("drivers/{id}")
+    public Driver incrementalUpdateDriver(@PathVariable("id") Long id, @RequestBody Driver driver) {
+        Driver foundDriver = driverById(id);
+        foundDriver.setBirthDate(Optional.ofNullable(driver.getBirthDate()).orElse(foundDriver.getBirthDate()));
+        foundDriver.setName(Optional.ofNullable(driver.getName()).orElse(foundDriver.getName()));
+        return driverRepository.save(foundDriver);
+    }
+
+    @DeleteMapping("drivers/{id}")
+    public void deleteDriver(@PathVariable("id") Long id) {
+        
+
     }
 }
