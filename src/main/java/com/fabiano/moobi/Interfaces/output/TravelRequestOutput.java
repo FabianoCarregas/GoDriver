@@ -1,26 +1,17 @@
-package com.fabiano.moobi.Domain;
+package com.fabiano.moobi.Interfaces.output;
 
+import com.fabiano.moobi.Domain.Passenger;
 import com.fabiano.moobi.Domain.enums.TravelRequestStatus;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
 @Data
-public class TravelRequest {
+public class TravelRequestOutput {
 
-    @Id
-    @GeneratedValue
     private Long id;
-
-    @ManyToOne
-    public Passenger passenger;
-
     private String origin;
     private String destination;
-
-    @Enumerated(EnumType.STRING)
     private TravelRequestStatus travelRequestStatus;
     private Date creationDate;
 }
